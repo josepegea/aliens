@@ -68,4 +68,18 @@ describe 'TickMap' do
       expect { map.tick?(6, 3) }.to raise_error(Aliens::OutOfBoundsError)
     end
   end
+
+  describe "parsing map chars" do
+    it "works with non-default chars" do
+      map = Aliens::TickMap.new("11000111", tick_char: '1', empty_char: '0')
+      expect(map.x_size).to eq(8)
+      expect(map.y_size).to eq(1)
+      expect(map.tick?(0)).to be(true)
+      expect(map.tick?(2)).to be(false)
+    end
+
+    it "fails with bad chars" do
+      expect { map = Aliens::TickMap.new("--oo--O--") }.to raise_error(Aliens::UnrecognizedCharInScanError)
+    end
+  end
 end
