@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'aliens'
 require 'pry'
@@ -6,20 +8,20 @@ describe Aliens::TickMapParser do
   let(:blank) { '' }
 
   let(:empty_line) { '------' }
-    
+
   let(:bulls_eye) do
     <<~TEXT
-       -----
-       --o--
-       -----
+      -----
+      --o--
+      -----
     TEXT
   end
 
   let(:irregular_map) do
     <<~TEXT
-       -----
-       ----
-       -----
+      -----
+      ----
+      -----
     TEXT
   end
 
@@ -43,7 +45,7 @@ describe Aliens::TickMapParser do
     end
 
     it "raises for an irregular map" do
-      expect { map = subject.parse(irregular_map) }.to raise_error(Aliens::NonRectangularError)
+      expect { subject.parse(irregular_map) }.to raise_error(Aliens::NonRectangularError)
     end
   end
 
@@ -72,7 +74,7 @@ describe Aliens::TickMapParser do
   describe "parsing map chars" do
     it "works with non-default chars" do
       alt_parser = Aliens::TickMapParser.new(tick_char: '1', empty_char: '0')
-      map = alt_subject.parse("11000111")
+      map = alt_parser.parse("11000111")
       expect(map.x_size).to eq(8)
       expect(map.y_size).to eq(1)
       expect(map.tick_at(0)).to eq(1)

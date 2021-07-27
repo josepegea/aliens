@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Aliens::Matcher do
@@ -31,8 +33,8 @@ describe Aliens::Matcher do
     parser.parse(pattern)
   end
 
-  let(:alien_1) do
-   pattern = <<~TEXT
+  let(:alien1) do
+    pattern = <<~TEXT
       --o-----o--
       ---o---o---
       --ooooooo--
@@ -45,8 +47,8 @@ describe Aliens::Matcher do
     parser.parse(pattern)
   end
 
-  let(:reading_1) do
-   pattern = <<~TEXT
+  let(:reading1) do
+    pattern = <<~TEXT
       --o-----o--
       ---o---o---
       --ooOoooo--
@@ -59,44 +61,44 @@ describe Aliens::Matcher do
     parser.parse(pattern)
   end
 
-  let(:reading_2) do
-   pattern = <<~TEXT
-     --oo----o--
-     -------o---
-     o--oooooo--
-     -oo--oo--o-
-     oo-oooooooo
-     o-ooooooo-o
-     oo-o----o-o
-     --ooo-oo--o
+  let(:reading2) do
+    pattern = <<~TEXT
+      --oo----o--
+      -------o---
+      o--oooooo--
+      -oo--oo--o-
+      oo-oooooooo
+      o-ooooooo-o
+      oo-o----o-o
+      --ooo-oo--o
     TEXT
     parser.parse(pattern)
   end
 
-  let(:reading_3) do
-   pattern = <<~TEXT
-     --oo----o--
-     -------o---
-     -------o---
-     o--o-o-oo--
-     -oo--oo--o-
-     oo-ooOoo-oo
-     oo-o----o-o
-     --ooo-oo--o
+  let(:reading3) do
+    pattern = <<~TEXT
+      --oo----o--
+      -------o---
+      -------o---
+      o--o-o-oo--
+      -oo--oo--o-
+      oo-ooOoo-oo
+      oo-o----o-o
+      --ooo-oo--o
     TEXT
     parser.parse(pattern)
   end
 
-  let(:reading_4) do
-   pattern = <<~TEXT
-     ooooooooooo
-     ooooooooooo
-     ooooooooooo
-     ooooooooooo
-     oo---------
-     -----------
-     -----------
-     -----------
+  let(:reading4) do
+    pattern = <<~TEXT
+      ooooooooooo
+      ooooooooooo
+      ooooooooooo
+      ooooooooooo
+      oo---------
+      -----------
+      -----------
+      -----------
     TEXT
     parser.parse(pattern)
   end
@@ -111,7 +113,7 @@ describe Aliens::Matcher do
     end
 
     it "matches alien to itself" do
-      expect(subject.match(alien_1, alien_1)).to eq(1)
+      expect(subject.match(alien1, alien1)).to eq(1)
     end
   end
 
@@ -125,27 +127,27 @@ describe Aliens::Matcher do
     let(:thereshold) { 0.85 }
 
     it "orders aliens by closeness" do
-      reading_1_score = subject.match(alien_1, reading_1)
-      reading_2_score = subject.match(alien_1, reading_2)
-      reading_3_score = subject.match(alien_1, reading_3)
-      reading_4_score = subject.match(alien_1, reading_4)
-      expect(reading_1_score).to be >= reading_2_score
-      expect(reading_2_score).to be >= reading_3_score
-      expect(reading_3_score).to be >= reading_4_score
+      reading1_score = subject.match(alien1, reading1)
+      reading2_score = subject.match(alien1, reading2)
+      reading3_score = subject.match(alien1, reading3)
+      reading4_score = subject.match(alien1, reading4)
+      expect(reading1_score).to be >= reading2_score
+      expect(reading2_score).to be >= reading3_score
+      expect(reading3_score).to be >= reading4_score
     end
 
     it "puts reasonable matches above thereshold" do
-      reading_1_score = subject.match(alien_1, reading_1)
-      reading_2_score = subject.match(alien_1, reading_2)
-      expect(reading_1_score).to be > thereshold
-      expect(reading_2_score).to be > thereshold
+      reading1_score = subject.match(alien1, reading1)
+      reading2_score = subject.match(alien1, reading2)
+      expect(reading1_score).to be > thereshold
+      expect(reading2_score).to be > thereshold
     end
 
     it "puts hard matches below thereshold" do
-      reading_3_score = subject.match(alien_1, reading_3)
-      reading_4_score = subject.match(alien_1, reading_4)
-      expect(reading_3_score).to be < thereshold
-      expect(reading_4_score).to be < thereshold
+      reading3_score = subject.match(alien1, reading3)
+      reading4_score = subject.match(alien1, reading4)
+      expect(reading3_score).to be < thereshold
+      expect(reading4_score).to be < thereshold
     end
   end
 end

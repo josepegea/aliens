@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Aliens
+  # Parses a textual representation of a TickMap
   class TickMapParser
     attr_reader :tick_char, :empty_char
     attr_reader :tick_map_class

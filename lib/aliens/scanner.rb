@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Aliens
+  # Scans a radar reading trying to find aliens as per the provided patterns
   class Scanner
     attr_reader :alien_patterns
     attr_reader :minimum_confidence_factor
@@ -7,13 +10,14 @@ module Aliens
     attr_reader :clipper
     attr_reader :results_class
 
+    # It's keyword arguments. You only use the ones you need
+    # rubocop:disable Metrics/ParameterLists
     def initialize(alien_patterns,
                    minimum_confidence_factor: 0.85,
                    edge_thereshold: 0.5,
                    clipper_class: Clipper, clipper: clipper_class.new,
                    matcher_class: Matcher, matcher: matcher_class.new,
-                   results_class: Result
-                  )
+                   results_class: Result)
       @alien_patterns = alien_patterns
       @minimum_confidence_factor = minimum_confidence_factor
       @edge_thereshold = edge_thereshold
@@ -21,6 +25,7 @@ module Aliens
       @matcher = matcher
       @results_class = results_class
     end
+    # rubocop:enable Metrics/ParameterLists
 
     def scan(radar_reading)
       alien_patterns.map do |pattern|
@@ -43,31 +48,36 @@ module Aliens
 
     def x_scan_range(radar_reading, pattern)
       thereshold = (pattern.x_size * edge_thereshold).to_i
-      (-thereshold .. radar_reading.x_size - thereshold)
+      -thereshold..(radar_reading.x_size - thereshold)
     end
 
     def y_scan_range(radar_reading, pattern)
       thereshold = (pattern.y_size * edge_thereshold).to_i
-      (-thereshold .. radar_reading.y_size - thereshold)
+      -thereshold..(radar_reading.y_size - thereshold)
     end
 
     def match_pattern(radar_reading, pattern, x, y)
-      # Let's clip for the real matching range
-      x_offset, x_size = clip_range(x, radar_reading.x_size, pattern.x_size)
-      y_offset, y_size = clip_range(y, radar_reading.y_size, pattern.y_size)
+      x_offset, y_offset, x_size, y_size = visible_range(radar_reading, pattern, x, y)
       pattern_clip = clipper.clip(pattern, x_offset, y_offset, x_size, y_size)
       reading_clip = clipper.clip(radar_reading, x + x_offset, y + y_offset, x_size, y_size)
       confidence_factor = matcher.match(pattern_clip, reading_clip)
       return nil unless confidence_factor >= minimum_confidence_factor
+
       results_class.new(x, y, confidence_factor, pattern, pattern_clip, reading_clip)
     end
 
+    def visible_range(radar_reading, pattern, x, y)
+      x_offset, x_size = clip_range(x, radar_reading.x_size, pattern.x_size)
+      y_offset, y_size = clip_range(y, radar_reading.y_size, pattern.y_size)
+      [x_offset, y_offset, x_size, y_size]
+    end
+
     def clip_range(v, reading_size, pattern_size)
-      offset = v < 0 ? v * -1 : 0
+      offset = v.negative? ? v * -1 : 0
       excess = v + pattern_size - reading_size
-      excess = 0 if excess < 0
+      excess = 0 if excess.negative?
       size = pattern_size - offset - excess
-      return offset, size
+      [offset, size]
     end
   end
 end

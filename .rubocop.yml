@@ -1,0 +1,17 @@
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'spec/spec_helper.rb'
+
+Style/StringLiterals:
+  Enabled: false
+Style/AccessorGrouping:
+  Enabled: false
+Naming/MethodParameterName:
+  Enabled: false
+Style/RedundantArgument:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**'

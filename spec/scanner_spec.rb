@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 # Clipper subclass that keeps track of scanned ticks
@@ -5,10 +7,12 @@ class TracedClipper < Aliens::Clipper
   attr_reader :traced_tick_map
   attr_accessor :tick_hits
 
+  # rubocop:disable Lint/MissingSuper
   def initialize(traced_tick_map)
     @traced_tick_map = traced_tick_map
     @tick_hits = traced_tick_map.y_size.times.map { Array.new(traced_tick_map.x_size, 0) }
   end
+  # rubocop:enable Lint/MissingSuper
 
   def clip(pattern, x_offset, y_offset, x_size, y_size)
     if pattern == traced_tick_map
@@ -54,7 +58,7 @@ describe Aliens::Scanner do
     let(:scanner) { Aliens::Scanner.new([alien], clipper: traced_clipper) }
 
     it "scans all the ticks in the reading" do
-      results = scanner.scan(reading)
+      scanner.scan(reading)
       expect(traced_clipper.tick_hits.flatten.any? { |v| v == 0 }).to be false
     end
   end

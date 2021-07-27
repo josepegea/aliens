@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
-describe 'TickMappable' do
+describe Aliens::TickMappable do
   let(:parser) { Aliens::TickMapParser.new }
 
   let(:alien_pattern) do
-   <<~TEXT
+    <<~TEXT
       --o-----o--
       ---o---o---
       --ooooooo--

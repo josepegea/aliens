@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Aliens
+  # Matches 2 TickMaps
   class Matcher
     def match(pattern, reading)
       diff = diff_maps(pattern, reading)
@@ -19,7 +22,7 @@ module Aliens
 
     def grade_diff(diff, pattern)
       total_ticks = pattern.x_size * pattern.y_size
-      1.0 - (diff.to_f / total_ticks.to_f)
+      1.0 - (diff.to_f / total_ticks)
     end
   end
 end

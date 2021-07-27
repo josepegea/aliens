@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'aliens/clipper'
 require_relative 'aliens/matcher'
 require_relative 'aliens/scanner'
