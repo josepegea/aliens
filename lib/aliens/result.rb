@@ -14,20 +14,27 @@ module Aliens
     end
 
     def to_s
-      <<~TEXT
-        ------------------------------------------------------------------
-        Found bandit at [#{x}, #{y}] with #{@confidence_factor} confidence
+      res = <<~TEXT
+        ==================================================================
+        Found #{"partial " if clipped_match?}bandit at [#{x}, #{y}] with #{@confidence_factor} confidence
         Original:
         #{pattern}
 
-        Portion:
-        #{pattern_clip}
-
         Found:
         #{reading_clip}
-        ------------------------------------------------------------------
 
       TEXT
+      if clipped_match?
+        res += <<~TEXT
+          Portion:
+          #{pattern_clip}
+        TEXT
+      end
+      res
+    end
+
+    def clipped_match?
+      pattern.x_size != pattern_clip.x_size || pattern.y_size != pattern_clip.y_size
     end
   end
 end
