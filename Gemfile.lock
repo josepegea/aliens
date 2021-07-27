@@ -46,6 +46,7 @@ GEM
       rubocop (~> 1.0)
       rubocop-ast (>= 1.1.0)
     ruby-progressbar (1.11.0)
+    thor (1.1.0)
     unicode-display_width (2.0.0)
 
 PLATFORMS
@@ -56,6 +57,7 @@ DEPENDENCIES
   rspec
   rubocop
   rubocop-rspec
+  thor
 
 RUBY VERSION
    ruby 3.0.1p64
