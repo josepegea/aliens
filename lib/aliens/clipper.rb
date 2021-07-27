@@ -1,4 +1,4 @@
-require_relative 'tick_map_clip.rb'
+require_relative 'tick_map_clip'
 
 module Aliens
   class Clipper
