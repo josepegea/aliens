@@ -5,6 +5,7 @@ require_relative 'abstract_tick_map'
 module Aliens
   # A TickMap that is a clipping of another one
   class TickMapClip < AbstractTickMap
+    attr_reader :original_clip
     attr_reader :x_start
     attr_reader :y_start
     attr_reader :x_size
