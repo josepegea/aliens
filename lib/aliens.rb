@@ -1,1 +1,8 @@
+require_relative 'aliens/clipper.rb'
+require_relative 'aliens/matcher.rb'
+require_relative 'aliens/scanner.rb'
+require_relative 'aliens/result.rb'
+require_relative 'aliens/abstract_tick_map.rb'
 require_relative 'aliens/tick_map.rb'
+require_relative 'aliens/tick_map_clip.rb'
+require_relative 'aliens/tick_map_parser.rb'
