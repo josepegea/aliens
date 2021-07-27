@@ -21,11 +21,11 @@ module Aliens
     end
 
     def each_x
-      x_size.times.with_index
+      x_size.times
     end
 
     def each_y
-      y_size.times.with_index
+      y_size.times
     end
   end
 end

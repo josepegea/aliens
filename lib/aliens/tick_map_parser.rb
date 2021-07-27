@@ -1,9 +1,12 @@
 module Aliens
   class TickMapParser
-    def initialize(tick_char: 'o', empty_char: '-', map_class: TickMap)
+    attr_reader :tick_char, :empty_char
+    attr_reader :tick_map_class
+
+    def initialize(tick_char: 'o', empty_char: '-', tick_map_class: TickMap)
       @tick_char = tick_char
       @empty_char = empty_char
-      @map_class = map_class
+      @tick_map_class = tick_map_class
     end
 
     def parse(data)
@@ -12,19 +15,19 @@ module Aliens
 
     private
 
-    def parse_lines(data, map: @map_class.new)
-      data.each_line(chomp: true).with_index do |line, idx|
-        map.add_line(parse_line(line))
+    def parse_lines(data, tick_map: tick_map_class.new)
+      data.each_line(chomp: true) do |line|
+        tick_map.add_line(parse_line(line))
       end
-      map
+      tick_map
     end
 
     def parse_line(line)
       line.each_char.map do |char|
         case char
-        when @tick_char
+        when tick_char
           1
-        when @empty_char
+        when empty_char
           0
         else
           # This is noise. Let's treat it as so
