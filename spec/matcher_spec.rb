@@ -124,7 +124,7 @@ describe Aliens::Matcher do
   end
 
   describe "fuzzy matches" do
-    let(:thereshold) { 0.85 }
+    let(:threshold) { 0.85 }
 
     it "orders aliens by closeness" do
       reading1_score = subject.match(alien1, reading1)
@@ -136,18 +136,18 @@ describe Aliens::Matcher do
       expect(reading3_score).to be >= reading4_score
     end
 
-    it "puts reasonable matches above thereshold" do
+    it "puts reasonable matches above threshold" do
       reading1_score = subject.match(alien1, reading1)
       reading2_score = subject.match(alien1, reading2)
-      expect(reading1_score).to be > thereshold
-      expect(reading2_score).to be > thereshold
+      expect(reading1_score).to be > threshold
+      expect(reading2_score).to be > threshold
     end
 
-    it "puts hard matches below thereshold" do
+    it "puts hard matches below threshold" do
       reading3_score = subject.match(alien1, reading3)
       reading4_score = subject.match(alien1, reading4)
-      expect(reading3_score).to be < thereshold
-      expect(reading4_score).to be < thereshold
+      expect(reading3_score).to be < threshold
+      expect(reading4_score).to be < threshold
     end
   end
 end

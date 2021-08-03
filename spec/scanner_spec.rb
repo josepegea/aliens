@@ -185,34 +185,34 @@ describe Aliens::Scanner do
       parser.parse(pattern)
     end
 
-    context "with default edge thereshold" do
+    context "with default edge threshold" do
       let(:scanner) { Aliens::Scanner.new([alien], minimum_confidence_factor: 1) }
 
       it "works with no edge cases" do
         expect(scanner.scan(reading_no_partials).size).to eq(1)
       end
 
-      it "works with edge cases well below thereshold" do
+      it "works with edge cases well below threshold" do
         expect(scanner.scan(reading_partials20).size).to eq(1)
       end
 
-      it "works with edge cases just below thereshold" do
+      it "works with edge cases just below threshold" do
         expect(scanner.scan(reading_partials40).size).to eq(1)
       end
 
-      it "works with edge cases just above thereshold" do
+      it "works with edge cases just above threshold" do
         expect(scanner.scan(reading_partials60).size).to eq(8)
       end
 
-      it "works with edge cases well above thereshold" do
+      it "works with edge cases well above threshold" do
         expect(scanner.scan(reading_partials80).size).to eq(8)
       end
     end
 
-    context "with 20% edge thereshold" do
+    context "with 20% edge threshold" do
       let(:scanner) do
         Aliens::Scanner.new([alien],
-                            edge_thereshold: 0.2,
+                            edge_threshold: 0.2,
                             minimum_confidence_factor: 1)
       end
 
@@ -220,27 +220,27 @@ describe Aliens::Scanner do
         expect(scanner.scan(reading_no_partials).size).to eq(1)
       end
 
-      it "works with edge cases exactly on thereshold" do
+      it "works with edge cases exactly on threshold" do
         expect(scanner.scan(reading_partials20).size).to eq(8)
       end
 
-      it "works with edge cases just above thereshold" do
+      it "works with edge cases just above threshold" do
         expect(scanner.scan(reading_partials40).size).to eq(8)
       end
 
-      it "works with edge cases well above thereshold" do
+      it "works with edge cases well above threshold" do
         expect(scanner.scan(reading_partials60).size).to eq(8)
       end
 
-      it "works with edge cases far above thereshold" do
+      it "works with edge cases far above threshold" do
         expect(scanner.scan(reading_partials80).size).to eq(8)
       end
     end
 
-    context "with 40% edge thereshold" do
+    context "with 40% edge threshold" do
       let(:scanner) do
         Aliens::Scanner.new([alien],
-                            edge_thereshold: 0.4,
+                            edge_threshold: 0.4,
                             minimum_confidence_factor: 1)
       end
 
@@ -248,27 +248,27 @@ describe Aliens::Scanner do
         expect(scanner.scan(reading_no_partials).size).to eq(1)
       end
 
-      it "works with edge cases below thereshold" do
+      it "works with edge cases below threshold" do
         expect(scanner.scan(reading_partials20).size).to eq(1)
       end
 
-      it "works with edge cases exactly on thereshold" do
+      it "works with edge cases exactly on threshold" do
         expect(scanner.scan(reading_partials40).size).to eq(8)
       end
 
-      it "works with edge cases just above thereshold" do
+      it "works with edge cases just above threshold" do
         expect(scanner.scan(reading_partials60).size).to eq(8)
       end
 
-      it "works with edge cases well above thereshold" do
+      it "works with edge cases well above threshold" do
         expect(scanner.scan(reading_partials80).size).to eq(8)
       end
     end
 
-    context "with 60% edge thereshold" do
+    context "with 60% edge threshold" do
       let(:scanner) do
         Aliens::Scanner.new([alien],
-                            edge_thereshold: 0.6,
+                            edge_threshold: 0.6,
                             minimum_confidence_factor: 1)
       end
 
@@ -276,27 +276,27 @@ describe Aliens::Scanner do
         expect(scanner.scan(reading_no_partials).size).to eq(1)
       end
 
-      it "works with edge cases far below thereshold" do
+      it "works with edge cases far below threshold" do
         expect(scanner.scan(reading_partials20).size).to eq(1)
       end
 
-      it "works with edge cases just below thereshold" do
+      it "works with edge cases just below threshold" do
         expect(scanner.scan(reading_partials40).size).to eq(1)
       end
 
-      it "works with edge cases exactly on thereshold" do
+      it "works with edge cases exactly on threshold" do
         expect(scanner.scan(reading_partials60).size).to eq(8)
       end
 
-      it "works with edge cases just above thereshold" do
+      it "works with edge cases just above threshold" do
         expect(scanner.scan(reading_partials80).size).to eq(8)
       end
     end
 
-    context "with 80% edge thereshold" do
+    context "with 80% edge threshold" do
       let(:scanner) do
         Aliens::Scanner.new([alien],
-                            edge_thereshold: 0.8,
+                            edge_threshold: 0.8,
                             minimum_confidence_factor: 1)
       end
 
@@ -304,27 +304,27 @@ describe Aliens::Scanner do
         expect(scanner.scan(reading_no_partials).size).to eq(1)
       end
 
-      it "works with edge cases far below thereshold" do
+      it "works with edge cases far below threshold" do
         expect(scanner.scan(reading_partials20).size).to eq(1)
       end
 
-      it "works with edge cases well below thereshold" do
+      it "works with edge cases well below threshold" do
         expect(scanner.scan(reading_partials40).size).to eq(1)
       end
 
-      it "works with edge cases just below thereshold" do
+      it "works with edge cases just below threshold" do
         expect(scanner.scan(reading_partials60).size).to eq(1)
       end
 
-      it "works with edge cases exactly on thereshold" do
+      it "works with edge cases exactly on threshold" do
         expect(scanner.scan(reading_partials80).size).to eq(8)
       end
     end
 
-    context "with no edge thereshold" do
+    context "with no edge threshold" do
       let(:scanner) do
         Aliens::Scanner.new([alien],
-                            edge_thereshold: 1.0,
+                            edge_threshold: 1.0,
                             minimum_confidence_factor: 1)
       end
 
@@ -332,19 +332,19 @@ describe Aliens::Scanner do
         expect(scanner.scan(reading_no_partials).size).to eq(1)
       end
 
-      it "works with edge cases below thereshold" do
+      it "works with edge cases below threshold" do
         expect(scanner.scan(reading_partials20).size).to eq(1)
       end
 
-      it "works with edge cases below thereshold" do
+      it "works with edge cases below threshold" do
         expect(scanner.scan(reading_partials40).size).to eq(1)
       end
 
-      it "works with edge cases below thereshold" do
+      it "works with edge cases below threshold" do
         expect(scanner.scan(reading_partials60).size).to eq(1)
       end
 
-      it "works with edge cases below thereshold" do
+      it "works with edge cases below threshold" do
         expect(scanner.scan(reading_partials80).size).to eq(1)
       end
     end

@@ -105,11 +105,11 @@ The scanner supports detecting partly visible aliens on the edges of
 the radar readings.
 
 In order to avoid too many false positives, it only tries to match
-partial readings if a certain thereshold of the alien pattern is
+partial readings if a certain threshold of the alien pattern is
 not beyond each of the edges.
 
-This thereshold is predefined at 0.5 (50%) and can be adjusted with
-the `--edge-thereshold` runtime option (or simply `-e`.
+This threshold is predefined at 0.5 (50%) and can be adjusted with
+the `--edge-threshold` runtime option (or simply `-e`.
 
 So you can run
 
