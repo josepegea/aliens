@@ -47,13 +47,17 @@ module Aliens
     end
 
     def x_scan_range(radar_reading, pattern)
-      thereshold = (pattern.x_size * edge_thereshold).to_i
-      -thereshold..(radar_reading.x_size - thereshold)
+      thereshold = (pattern.x_size * edge_thereshold).ceil
+      start_x = -pattern.x_size + thereshold
+      end_x = radar_reading.x_size - thereshold
+      start_x..end_x
     end
 
     def y_scan_range(radar_reading, pattern)
-      thereshold = (pattern.y_size * edge_thereshold).to_i
-      -thereshold..(radar_reading.y_size - thereshold)
+      thereshold = (pattern.y_size * edge_thereshold).ceil
+      start_y = -pattern.y_size + thereshold
+      end_y = radar_reading.y_size - thereshold
+      start_y..end_y
     end
 
     def match_pattern(radar_reading, pattern, x, y)
