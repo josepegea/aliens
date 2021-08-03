@@ -5,7 +5,7 @@ module Aliens
   class Scanner
     attr_reader :alien_patterns
     attr_reader :minimum_confidence_factor
-    attr_reader :edge_thereshold
+    attr_reader :edge_threshold
     attr_reader :matcher
     attr_reader :clipper
     attr_reader :results_class
@@ -14,13 +14,13 @@ module Aliens
     # rubocop:disable Metrics/ParameterLists
     def initialize(alien_patterns,
                    minimum_confidence_factor: 0.85,
-                   edge_thereshold: 0.5,
+                   edge_threshold: 0.5,
                    clipper_class: Clipper, clipper: clipper_class.new,
                    matcher_class: Matcher, matcher: matcher_class.new,
                    results_class: Result)
       @alien_patterns = alien_patterns
       @minimum_confidence_factor = minimum_confidence_factor
-      @edge_thereshold = edge_thereshold
+      @edge_threshold = edge_threshold
       @clipper = clipper
       @matcher = matcher
       @results_class = results_class
@@ -47,13 +47,17 @@ module Aliens
     end
 
     def x_scan_range(radar_reading, pattern)
-      thereshold = (pattern.x_size * edge_thereshold).to_i
-      -thereshold..(radar_reading.x_size - thereshold)
+      threshold = (pattern.x_size * edge_threshold).ceil
+      start_x = -pattern.x_size + threshold
+      end_x = radar_reading.x_size - threshold
+      start_x..end_x
     end
 
     def y_scan_range(radar_reading, pattern)
-      thereshold = (pattern.y_size * edge_thereshold).to_i
-      -thereshold..(radar_reading.y_size - thereshold)
+      threshold = (pattern.y_size * edge_threshold).ceil
+      start_y = -pattern.y_size + threshold
+      end_y = radar_reading.y_size - threshold
+      start_y..end_y
     end
 
     def match_pattern(radar_reading, pattern, x, y)

@@ -58,7 +58,10 @@ bundle exec alien_scan.rb scan path/to/reading_file
 
 ### Alien patterns
 
-On launch, the script loads the following alien patterns for
+Use the `--patterns` option (or simply `-p`) to specify a space
+separated list of files containing alien patterns.
+
+By default, the script loads the following alien patterns for
 recognition:
 
 ``` bash
@@ -66,9 +69,18 @@ data/alien01.txt
 data/alien02.txt
 ```
 
-At the moment, the executable script doesn't provide options to load a
-different set of patterns, although the underlying classes support an
-arbitrary number of them,
+You could get the same result with
+
+``` bash
+bundle exec alien_scan.rb scan path/to/reading_file -p
+data/alien01.txt data/alien02.txt
+```
+
+or simply
+
+``` bash
+bundle exec alien_scan.rb scan path/to/reading_file -p data/alien*.txt
+```
 
 ### Fuzzy matching
 
@@ -93,11 +105,19 @@ The scanner supports detecting partly visible aliens on the edges of
 the radar readings.
 
 In order to avoid too many false positives, it only tries to match
-partial readings if at most 50% of the alien pattern is beyond each of
-the edges.
+partial readings if a certain threshold of the alien pattern is
+not beyond each of the edges.
 
-This thereshold is configurable in the internal classes but not in the
-CLI script.
+This threshold is predefined at 0.5 (50%) and can be adjusted with
+the `--edge-threshold` runtime option (or simply `-e`.
+
+So you can run
+
+``` bash
+bundle exec alien_scan.rb scan data/radar01.txt -e 0.8
+```
+
+to only find aliens where at least 80% of the pattern is visible.
 
 # Running tests
 

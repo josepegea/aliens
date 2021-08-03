@@ -63,6 +63,293 @@ describe Aliens::Scanner do
     end
   end
 
+  describe "edge cases" do
+    let(:alien) do
+      pattern = <<~TEXT
+        ooooo
+        o---o
+        o---o
+        o---o
+        ooooo
+      TEXT
+      parser.parse(pattern)
+    end
+
+    let(:reading_no_partials) do
+      pattern = <<~TEXT
+        -------------------
+        -------------------
+        -------------------
+        -------------------
+        -------------------
+        -------------------
+        -------ooooo-------
+        -------o---o-------
+        -------o---o-------
+        -------o---o-------
+        -------ooooo-------
+        -------------------
+        -------------------
+        -------------------
+        -------------------
+        -------------------
+      TEXT
+      parser.parse(pattern)
+    end
+
+    let(:reading_partials20) do
+      pattern = <<~TEXT
+        o--------ooooo----o
+        -------------------
+        -------------------
+        -------------------
+        ------------------o
+        ------------------o
+        o------ooooo------o
+        o------o---o------o
+        o------o---o------o
+        o------o---o-------
+        o------ooooo-------
+        -------------------
+        -------------------
+        -------------------
+        -------------------
+        o-----------------o
+      TEXT
+      parser.parse(pattern)
+    end
+
+    let(:reading_partials40) do
+      pattern = <<~TEXT
+        -o-------o---o---o-
+        oo-------ooooo---oo
+        -------------------
+        -------------------
+        -----------------oo
+        -----------------o-
+        oo-----ooooo-----o-
+        -o-----o---o-----o-
+        -o-----o---o-----oo
+        -o-----o---o-------
+        oo-----ooooo-------
+        -------------------
+        -------------------
+        -------------------
+        oo---------------oo
+        -o---------------o-
+      TEXT
+      parser.parse(pattern)
+    end
+
+    let(:reading_partials60) do
+      pattern = <<~TEXT
+        --o------o---o--o--
+        --o------o---o--o--
+        ooo------ooooo--ooo
+        -------------------
+        ----------------ooo
+        ----------------o--
+        ooo----ooooo----o--
+        --o----o---o----o--
+        --o----o---o----ooo
+        --o----o---o-------
+        ooo----ooooo-------
+        -------------------
+        -------------------
+        ooo-------------ooo
+        --o-------------o--
+        --o-------------o--
+      TEXT
+      parser.parse(pattern)
+    end
+
+    let(:reading_partials80) do
+      pattern = <<~TEXT
+        ---o-----o---o-o---
+        ---o-----o---o-o---
+        ---o-----o---o-o---
+        oooo-----ooooo-oooo
+        ---------------oooo
+        ---------------o---
+        oooo---ooooo---o---
+        ---o---o---o---o---
+        ---o---o---o---oooo
+        ---o---o---o-------
+        oooo---ooooo-------
+        -------------------
+        oooo-----------oooo
+        ---o-----------o---
+        ---o-----------o---
+        ---o-----------o---
+      TEXT
+      parser.parse(pattern)
+    end
+
+    context "with default edge threshold" do
+      let(:scanner) { Aliens::Scanner.new([alien], minimum_confidence_factor: 1) }
+
+      it "works with no edge cases" do
+        expect(scanner.scan(reading_no_partials).size).to eq(1)
+      end
+
+      it "works with edge cases well below threshold" do
+        expect(scanner.scan(reading_partials20).size).to eq(1)
+      end
+
+      it "works with edge cases just below threshold" do
+        expect(scanner.scan(reading_partials40).size).to eq(1)
+      end
+
+      it "works with edge cases just above threshold" do
+        expect(scanner.scan(reading_partials60).size).to eq(8)
+      end
+
+      it "works with edge cases well above threshold" do
+        expect(scanner.scan(reading_partials80).size).to eq(8)
+      end
+    end
+
+    context "with 20% edge threshold" do
+      let(:scanner) do
+        Aliens::Scanner.new([alien],
+                            edge_threshold: 0.2,
+                            minimum_confidence_factor: 1)
+      end
+
+      it "works with no edge cases" do
+        expect(scanner.scan(reading_no_partials).size).to eq(1)
+      end
+
+      it "works with edge cases exactly on threshold" do
+        expect(scanner.scan(reading_partials20).size).to eq(8)
+      end
+
+      it "works with edge cases just above threshold" do
+        expect(scanner.scan(reading_partials40).size).to eq(8)
+      end
+
+      it "works with edge cases well above threshold" do
+        expect(scanner.scan(reading_partials60).size).to eq(8)
+      end
+
+      it "works with edge cases far above threshold" do
+        expect(scanner.scan(reading_partials80).size).to eq(8)
+      end
+    end
+
+    context "with 40% edge threshold" do
+      let(:scanner) do
+        Aliens::Scanner.new([alien],
+                            edge_threshold: 0.4,
+                            minimum_confidence_factor: 1)
+      end
+
+      it "works with no edge cases" do
+        expect(scanner.scan(reading_no_partials).size).to eq(1)
+      end
+
+      it "works with edge cases below threshold" do
+        expect(scanner.scan(reading_partials20).size).to eq(1)
+      end
+
+      it "works with edge cases exactly on threshold" do
+        expect(scanner.scan(reading_partials40).size).to eq(8)
+      end
+
+      it "works with edge cases just above threshold" do
+        expect(scanner.scan(reading_partials60).size).to eq(8)
+      end
+
+      it "works with edge cases well above threshold" do
+        expect(scanner.scan(reading_partials80).size).to eq(8)
+      end
+    end
+
+    context "with 60% edge threshold" do
+      let(:scanner) do
+        Aliens::Scanner.new([alien],
+                            edge_threshold: 0.6,
+                            minimum_confidence_factor: 1)
+      end
+
+      it "works with no edge cases" do
+        expect(scanner.scan(reading_no_partials).size).to eq(1)
+      end
+
+      it "works with edge cases far below threshold" do
+        expect(scanner.scan(reading_partials20).size).to eq(1)
+      end
+
+      it "works with edge cases just below threshold" do
+        expect(scanner.scan(reading_partials40).size).to eq(1)
+      end
+
+      it "works with edge cases exactly on threshold" do
+        expect(scanner.scan(reading_partials60).size).to eq(8)
+      end
+
+      it "works with edge cases just above threshold" do
+        expect(scanner.scan(reading_partials80).size).to eq(8)
+      end
+    end
+
+    context "with 80% edge threshold" do
+      let(:scanner) do
+        Aliens::Scanner.new([alien],
+                            edge_threshold: 0.8,
+                            minimum_confidence_factor: 1)
+      end
+
+      it "works with no edge cases" do
+        expect(scanner.scan(reading_no_partials).size).to eq(1)
+      end
+
+      it "works with edge cases far below threshold" do
+        expect(scanner.scan(reading_partials20).size).to eq(1)
+      end
+
+      it "works with edge cases well below threshold" do
+        expect(scanner.scan(reading_partials40).size).to eq(1)
+      end
+
+      it "works with edge cases just below threshold" do
+        expect(scanner.scan(reading_partials60).size).to eq(1)
+      end
+
+      it "works with edge cases exactly on threshold" do
+        expect(scanner.scan(reading_partials80).size).to eq(8)
+      end
+    end
+
+    context "with no edge threshold" do
+      let(:scanner) do
+        Aliens::Scanner.new([alien],
+                            edge_threshold: 1.0,
+                            minimum_confidence_factor: 1)
+      end
+
+      it "works with no edge cases" do
+        expect(scanner.scan(reading_no_partials).size).to eq(1)
+      end
+
+      it "works with edge cases below threshold" do
+        expect(scanner.scan(reading_partials20).size).to eq(1)
+      end
+
+      it "works with edge cases below threshold" do
+        expect(scanner.scan(reading_partials40).size).to eq(1)
+      end
+
+      it "works with edge cases below threshold" do
+        expect(scanner.scan(reading_partials60).size).to eq(1)
+      end
+
+      it "works with edge cases below threshold" do
+        expect(scanner.scan(reading_partials80).size).to eq(1)
+      end
+    end
+  end
+
   describe "collecting positives" do
     let(:dumb_matcher) { Aliens::Matcher.new }
     let(:scanner) { Aliens::Scanner.new([alien], matcher: dumb_matcher) }
